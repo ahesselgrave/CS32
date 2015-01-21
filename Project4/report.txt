@@ -1,0 +1,37 @@
+MultiMap::findEqual():
+	For my iterator class, I have a constructor that takes a single parameter (a Node*) and creates a valid iterator referring to that node. 
+	My findEqual function uses a private find function that returns a node. It does simple BST traversal and stops and returns a pointer to 
+	a node that contains the right key, OR returns nullptr if it could not be found. It then passes that Node* (or nullptr) into an iterator
+	constructor and returns that iterator. Since find uses BST traversal, for a MultiMap of size N, the findEqual function will run in an average
+	of O(logN) steps because following child pointers ideally halves the number of items left to search. Since there is no balancing, it will have
+	a worst case O(N) to visit every single Node in a horribly unbalanced tree, but this still falls under the requirements of the spec
+
+MultiMap::Iterator:next():
+	next() will either assign the iterator to the next Node in alphabetical order, or to an invalid iterator (meaning it was previously on the last item).
+	It does this via a very simple algorithm that has only two cases. In the first case, the node iterator refers to has a right subtree. Therefore, the
+	next node we want is the leftmost Node in the right subtree, and then we assign the iterator to refer to that Node. In the second case, the current
+	Node does NOT have a right subtree, so the next node must be a parent of the current node. This parent must contain the current node in its left
+	subtree by definition of binary search trees, so we keep following parent pointers until we find a node whose parent contains the current node as 
+	its left child. If the iterator refers to the last node, it will keep following parents until it hits the root node's parent (which is nullptr)
+	and breaks out of the parent following loop, and then it makes the iterator invalid. 
+	Since it is following parent pointers up the tree, it is almost like reverse traversal, so therefore in a MultiMap of N items, it will run an average
+	of O(logN) for a relatively balanced tree, and O(N) for a horribly inbalanced tree.
+
+Database::search(const vector<SearchCriterion>& searchCriteria, const vector<SortCriterion>& sortCriteria, vector<int>& results):
+	This was a tricky function that I was not able to implement/test fully. So far, it will start out by calling clear() on results. Since either
+	failure or success will always clear results, I decided to just start out the function by doing so to save some code bloat. I then create an 
+	unordered set of ints to hold row numbers of matching rows. Then, for each search criterion, I query the database and add any row numbers that match
+	into the unordered set. I do this by creating a multimap iterator for each field index and using the find predecessor or successor function, based on
+	the search criteria. I then keep using next() or prev() to traverse the map for M elements. For a database of N rows, the iterator traversal will perform at O(logN)
+	steps M times, making a total big O of O(MlogN) for the initial search.  At this point, I have the maximum number of rows possible given the search criteria. 
+	For the next C-1 search criteria, I remove items from the set that do not match the later criteria, thus resulting in all possible rows for the query. Since unordered
+	set uses a hash table, this will perform at O(1) C times. Therefore, the total big O for finding all matching criteria is on average O(CMlogN), since I have to go through
+	C iterations of MlogN.	After this, I use an unordered set iterator to go through the set and push back all the ints into results. Then, I call my merge sort function to
+	sort all R matching rows in O(RlogR) time. However, since I have to consider S sort criteria, in worst case I will have to compare each element S times, thus changing the 
+	total big-O to be O(SRlogR) for the mergesort. 
+	Though I (hopefully) had the right idea, I was unable to successfully implement mergesort. Currently it is also really wonky since I was rushed for time. On paper it 
+	looks like it should work, but its not and I did not have enough time to test it and get it working at all. On the plus side, valgrind detected no memory leaks so I have
+	something going for this.
+
+	As far as bugs go, my program doesn't like to load from text files. It seems to work just fine for the sample csv files, but not any text files I make. Weird. Other than that 
+	it seems to work just fine.

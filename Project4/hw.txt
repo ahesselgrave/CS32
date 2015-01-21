@@ -1,0 +1,83 @@
+1a)        
+								50
+						20				60
+				10			40			     70
+						 30	   45		 65	      80
+					   25  35				   75
+1b)        
+								50
+						10				60
+				  			40			     70
+						 25	   45		 65	      80
+					       35				   75
+1c)
+	In order:   10 20 25 30 35 40 45 50 60 65 70 75 80
+	Pre order: 	50 20 10 40 30 25 35 45 60 70 65 80 75
+	Post order: 10 25 35 30 45 40 20 65 75 80 70 60 50
+
+2a)
+					6
+				5 		 4
+			1 	  3    2  
+
+b)	[6, 5, 4, 1, 3, 2] 
+c)  [5, 3, 4, 1, 2]
+
+3a)
+
+struct Node
+{
+	int value;
+	Node* leftChild;
+	Node* rightChild;
+	Node* parent;
+};
+
+b)
+if the tree is empty:
+	root points to a new node
+	set all of those node pointers to nullptr
+otherwise:
+	Node* cur points to root node
+	Node* tempParent
+	while cur isnt null:
+		set tempParent to point to cur's node (for when cur becomes null later)
+		if current node's key is less than the key we want to insert:
+			cur now points to the right child
+		otherwise:
+			cur now points to the left child
+	//tempParent must be the parent to the node we are inserting
+	if our key is less than tempParent's key:
+		make a new Node to the left of tempParent
+		set its children to null, parent to tempParent
+	otherwise:
+		make a new Node to the right of tempParent
+		set its children to null, parent to tempParent
+
+4a)
+	  A B C D E F G H I
+	  _________________
+	A|0 1 1 0 0 0 0 0 0
+	B|0 0 0 0 0 0 0 1 0
+	C|0 0 0 1 1 0 0 0 0
+	D|0 1 0 0 0 0 0 1 0
+	E|0 0 0 0 0 0 1 0 0
+	F|0 0 0 0 0 0 1 0 1
+	G|0 0 0 0 0 0 0 1 0
+	H|0 0 0 0 0 0 1 0 0
+	I|0 0 1 0 0 0 0 0 0
+
+A|->B->C
+B|->H
+C|->D->E
+D|->B->H
+E|->G
+F|->G->I
+G|->H
+H|->G
+I|->C
+
+b)  E->G->C->D->B->H
+	E->G->C->D->H
+	E->G->H
+

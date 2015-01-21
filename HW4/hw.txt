@@ -1,0 +1,7 @@
+2) There are no overloaded != operators to compare Coords, so functions like doInsertOrUpdate and find will not be able to validly compare Coords
+3b) Without the path string, there would be no way to recursively grab the previously outputted string (since that string would be out of scope)
+Given the restrictions given, it would be impossible to implement listAll recursively with just one parameter.
+4a) This algorithm is O(N^3) because it has 3 nested for loops each running N times, so the deepest one will do approximately N^3 operations (ignoring other terms)
+4b) On average, the j for loop will run 1/2N times, leading to a Big Oh of 1/2N^3 which still reduces down to O(N^3).
+5a) N^2 steps. Copy constructing res will take n steps to insert everything. The for loop runs n times and will ALWAYS call get, which in worst case would run 
+N times. Therefore, the highest order term is N^2, making this combine have O(N^2).

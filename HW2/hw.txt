@@ -1,0 +1,33 @@
+First 11 coordinates popped from stack:
+1:  (6, 4)
+2:  (6, 5)
+3:  (7, 5)
+4:  (8, 5)
+5:  (8, 6)
+6:  (8, 7)
+7:  (8, 8)
+8:  (7, 8)
+9:  (6, 6)
+10: (5, 4)
+11: (4, 4)
+
+First 11 coordinates popped from queue:
+1:  (6, 4)
+2:  (5, 4)
+3:  (6, 5)
+4:  (4, 4)
+5:  (6, 6)
+6:  (7, 5)
+7:  (3, 4)
+8:  (4, 5)
+9:  (8, 5)
+10: (2, 4)
+11: (4, 6)
+
+The stack based method expands until it finds a singular path and commits to that path. If the path results in 
+a dead end, it will pop the top item and then begin following a new path until the goal point is found or
+discovering that the maze is unsolvable.
+
+The queue based method does a clockwise expansion about the starting point, flood filling all the surrounding
+coordinates until the goal point is found or discovering that the maze is unsolvable.
+
